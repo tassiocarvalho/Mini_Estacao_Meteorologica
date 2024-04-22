@@ -7,15 +7,18 @@ const PORT = process.env.PORT || 3000;
 // Middleware para processar o corpo das requisições como JSON
 app.use(bodyParser.json());
 
-// Rota para receber os dados dos sensores via POST
-app.post('/api/sensor-data', (req, res) => {
-  const sensorData = req.body;
+// Rota para enviar os dados dos sensores via GET
+app.get('/api/sensor-data', (req, res) => {
+  // Simulação de dados dos sensores
+  const sensorData = {
+    humidity: 50.5,
+    temperature: 25.3,
+    light: 100,
+    pressure: 1013.2
+  };
 
-  // Aqui você pode processar os dados como desejar
-  console.log('Dados dos sensores recebidos:', sensorData);
-
-  // Retorna uma resposta de sucesso
-  res.status(200).json({ message: 'Dados dos sensores recebidos com sucesso!' });
+  // Retorna os dados dos sensores como resposta
+  res.status(200).json(sensorData);
 });
 
 // Inicia o servidor

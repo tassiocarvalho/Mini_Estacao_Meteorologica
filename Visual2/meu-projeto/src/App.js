@@ -30,11 +30,15 @@ function App() {
   useEffect(() => {
     if (data.length > 0) {
       const labels = data.map((item, index) => index + 1);
+      const maxSamples = 50; // Define o número máximo de amostras a serem exibidas
 
-      createChart('umidade-chart', 'Umidade (%)', data.map(item => item.umidade), labels, 'rgba(255, 99, 132, 1)');
-      createChart('luminosidade-chart', 'Luminosidade (lx)', data.map(item => item.luminosidade), labels, 'rgba(54, 162, 235, 1)');
-      createChart('pressao-chart', 'Pressão (hPa)', data.map(item => item.pressao), labels, 'rgba(255, 206, 86, 1)');
-      createChart('temperatura-chart', 'Temperatura (°C)', data.map(item => item.temperatura), labels, 'rgba(75, 192, 192, 1)');
+      const slicedLabels = labels.slice(-maxSamples);
+      const slicedData = data.slice(-maxSamples);
+
+      createChart('umidade-chart', 'Umidade (%)', slicedData.map(item => item.umidade), slicedLabels, 'rgba(255, 99, 132, 1)');
+      createChart('luminosidade-chart', 'Luminosidade (lx)', slicedData.map(item => item.luminosidade), slicedLabels, 'rgba(54, 162, 235, 1)');
+      createChart('pressao-chart', 'Pressão (hPa)', slicedData.map(item => item.pressao), slicedLabels, 'rgba(255, 206, 86, 1)');
+      createChart('temperatura-chart', 'Temperatura (°C)', slicedData.map(item => item.temperatura), slicedLabels, 'rgba(75, 192, 192, 1)');
     }
   }, [data]);
 

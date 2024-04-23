@@ -15,21 +15,30 @@ function App() {
       }
     };
 
+    // Chama fetchData inicialmente
     fetchData();
+
+    // Define o intervalo para chamar fetchData a cada 2 segundos
+    const interval = setInterval(() => {
+      fetchData();
+    }, 2000);
+
+    // Limpa o intervalo quando o componente é desmontado
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     if (data.length > 0) {
       const labels = data.map((item, index) => index + 1);
 
-      createChart('umidade-chart', 'Umidade (%)', data.map(item => item.umidade), labels);
-      createChart('luminosidade-chart', 'Luminosidade (lx)', data.map(item => item.luminosidade), labels);
-      createChart('pressao-chart', 'Pressão (hPa)', data.map(item => item.pressao), labels);
-      createChart('temperatura-chart', 'Temperatura (°C)', data.map(item => item.temperatura), labels);
+      createChart('umidade-chart', 'Umidade (%)', data.map(item => item.umidade), labels, 'rgba(255, 99, 132, 1)');
+      createChart('luminosidade-chart', 'Luminosidade (lx)', data.map(item => item.luminosidade), labels, 'rgba(54, 162, 235, 1)');
+      createChart('pressao-chart', 'Pressão (hPa)', data.map(item => item.pressao), labels, 'rgba(255, 206, 86, 1)');
+      createChart('temperatura-chart', 'Temperatura (°C)', data.map(item => item.temperatura), labels, 'rgba(75, 192, 192, 1)');
     }
   }, [data]);
 
-  const createChart = (id, label, data, labels) => {
+  const createChart = (id, label, data, labels, borderColor) => {
     const ctx = document.getElementById(id).getContext('2d');
     
     // Verifica se já existe um gráfico no canvas
@@ -45,7 +54,7 @@ function App() {
         datasets: [{
           label: label,
           data: data,
-          borderColor: 'rgba(75, 192, 192, 1)',
+          borderColor: borderColor,
           borderWidth: 1,
           fill: false
         }]
@@ -59,21 +68,20 @@ function App() {
       }
     });
   };
-  
 
   return (
     <div className="App">
-      <div>
+      <div style={{ width: '45%', float: 'left' }}>
         <canvas id="umidade-chart"></canvas>
       </div>
-      <div>
-        <canvas id="luminosidade-chart"></canvas>
+      <div style={{ width: '45%', float: 'left' }}>
+        <canvas id="temperatura-chart"></canvas>
       </div>
-      <div>
+      <div style={{ width: '45%', float: 'left' }}>
         <canvas id="pressao-chart"></canvas>
       </div>
-      <div>
-        <canvas id="temperatura-chart"></canvas>
+      <div style={{ width: '45%', float: 'left' }}>
+        <canvas id="luminosidade-chart"></canvas>
       </div>
     </div>
   );
